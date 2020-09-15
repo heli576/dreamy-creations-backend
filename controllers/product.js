@@ -21,14 +21,14 @@ exports.read=(req,res)=>{
 
 exports.create=(req,res)=>{
 let form=new formidable.IncomingForm()
-form.keepExtensions=true
+form.keepExtensions=true;
 form.parse(req,(err,fields,files)=>{
   if(err){
     return res.status(400).json({error:"Media has exceeded the size"});
   }
 //check for all fields
-  const {name,description,price,category,shipping}=fields;
-  if(!name||!description||!price||!category||!shipping){
+  const {name,description,price,category}=fields;
+  if(!name||!description||!price||!category){
     return res.status(400).json({error:"All fields are required"});
   }
   let product=new Product(fields);
@@ -41,7 +41,7 @@ form.parse(req,(err,fields,files)=>{
   }
   product.save((err,result)=>{
     if(err){
-      return res.status(400).json({error:errorHandler(err)})
+      return res.status(400).json({error:"Product already created"})
     }
     res.json(result);
   })
@@ -190,4 +190,23 @@ exports.media=(req,res,next)=>{
     return res.send(req.product.media.data);
   }
   next();
+}
+
+exports.listSearch=(req,res)=>{
+  const query={};
+  if(req.query.search){
+    query.name={$regex:req.query.search,$options:"i"};
+    if(req.query.category&&req.query.category!="All"){
+      query.category=req.query.category;
+    }
+    Product.find(query,(err,products)=>{
+      if(err){
+        return res.status(400).json({
+          error:errorHandler(err)
+        })
+      }
+      res.json(products);
+    }).select("-media");
+
+  }
 }

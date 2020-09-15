@@ -11,6 +11,7 @@ list,
 listRelated,
 listCategories,
 listBySearch,
+listSearch,
 media
 }=require("../controllers/product");
 const {requireSignin,isAuth,isAdmin}=require("../controllers/auth");
@@ -33,6 +34,7 @@ router.get("/products",list);
 router.get("/products/related/:productId",listRelated);
 router.get("/products/categories",listCategories);
 router.post("/products/by/search", listBySearch);
+router.get("/products/search", listSearch);
 router.get("/product/media/:productId",media);
 
 router.param("userId",userById);
