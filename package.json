@@ -24,6 +24,8 @@
     "mongoose": "^5.9.27",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
+    "razorpay": "^2.0.6",
+    "shortid": "^2.2.15",
     "uuid": "^8.3.0"
   }
 }
