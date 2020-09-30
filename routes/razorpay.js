@@ -4,7 +4,7 @@ const {requireSignin,isAuth}=require("../controllers/auth");
 const {userById}=require("../controllers/user");
 const {processPayment}=require("../controllers/razorpay");
 router.post(
-    "/razorpay/payment/:userId",
+    "/razorpay/:userId",
     requireSignin,
     isAuth,
     processPayment
