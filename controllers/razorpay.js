@@ -22,7 +22,7 @@ exports.processPayment=async(req,res)=>{
 
 	try {
 		const response = await razorpay.orders.create(options)
-		console.log(response)
+		//console.log(response)
 		res.json({
 			id: response.id,
 			currency: response.currency,
@@ -35,7 +35,7 @@ exports.processPayment=async(req,res)=>{
 
 exports.verification=(req,res)=>{
 	const secret=process.env.RAZORPAY_WEB_HOOK_SECRET;
-	console.log(req.body);
+	//console.log(req.body);
 	const crypto = require('crypto')
 
 	const shasum = crypto.createHmac('sha256', secret)
