@@ -57,11 +57,7 @@ exports.update=(req,res)=>{
     if(err){
       return res.status(400).json({error:"Media has exceeded the size"});
     }
-  //check for all fields
-    const {name,description,price,category,shipping}=fields;
-    if(!name||!description||!price||!category||!shipping){
-      return res.status(400).json({error:"All fields are required"});
-    }
+
     let product=req.product;
     product=_.extend(product,fields)
     if(files.media){
