@@ -9,7 +9,7 @@ router.get("/secret/:userId",requireSignin,isAuth,isAdmin,(req,res)=>{
 
 
   res.json({
-    user:req.profile
+    user:'got here'
   });
 });
 router.get("/user/:userId",requireSignin,isAuth,read);

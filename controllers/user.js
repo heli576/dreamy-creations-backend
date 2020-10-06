@@ -1,5 +1,5 @@
 const User=require("../models/user");
-
+const { errorHandler } = require('../helpers/dbErrorHandler');
 exports.userById=(req,res,next,id)=>{
   User.findById(id).exec((err,user)=>{
     if(err||!user){
@@ -18,16 +18,20 @@ exports.read=(req,res)=>{
   return res.json(req.profile);
 }
 
-exports.update=(req,res)=>{
-  User.findOneAndUpdate({_id:req.profile._id},{$set:req.body},{new:true,useFindAndModify: false},(err,user)=>{
-    if(err){
-      return res.status(400).json({error:"Unauthorized"});
-    }
-    user.hashed_password=undefined;
-    user.salt=undefined;
-    res.json(user);
-  })
-}
+exports.update = (req, res) => {
+     console.log('user update', req.body);
+     req.body.role = 0;
+     User.findOneAndUpdate({ _id: req.profile._id }, { $set: req.body }, { new: true }, (err, user) => {
+         if (err) {
+             return res.status(400).json({
+                 error: 'You are not authorized to perform this action'
+             });
+         }
+         user.hashed_password = undefined;
+         user.salt = undefined;
+         res.json(user);
+     });
+ };
 
 exports.addOrderToUserHistory=(req,res,next)=>{
   let history=[];
